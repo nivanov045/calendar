@@ -294,3 +294,5 @@ func Test_storage_AddEvent(t *testing.T) {
 		})
 	}
 }
+
+//TODO: Add tests.

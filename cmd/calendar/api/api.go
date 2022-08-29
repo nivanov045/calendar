@@ -225,3 +225,5 @@ func (a *api) findSlotHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(resp)
 }
+
+//TODO: Add tests.

@@ -227,3 +227,5 @@ func (s *service) FindSlot(body []byte) ([]byte, error) {
 	}
 	return marshal, nil
 }
+
+//TODO: Add tests.
