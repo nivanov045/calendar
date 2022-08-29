@@ -166,7 +166,7 @@ func Test_storage_AddUser(t *testing.T) {
 	}
 }
 
-func first(t time.Time, err error) time.Time {
+func first(t time.Time, _ error) time.Time {
 	return t
 }
 
@@ -200,7 +200,7 @@ func Test_storage_AddEvent(t *testing.T) {
 			},
 			wantErr: false,
 			wantStorage: map[string]event.Event{
-				"qwerty-12345": event.Event{
+				"qwerty-12345": {
 					ID:           "qwerty-12345",
 					Candidates:   []string{"c-1"},
 					Participants: []string{"p-1"},
@@ -213,7 +213,7 @@ func Test_storage_AddEvent(t *testing.T) {
 		{
 			name: "Add to not empty storage",
 			fields: fields{map[string]event.Event{
-				"qwerty-123456": event.Event{
+				"qwerty-123456": {
 					ID:           "qwerty-123456",
 					Candidates:   []string{"c-1"},
 					Participants: []string{"p-1"},
@@ -235,7 +235,7 @@ func Test_storage_AddEvent(t *testing.T) {
 			},
 			wantErr: false,
 			wantStorage: map[string]event.Event{
-				"qwerty-12345": event.Event{
+				"qwerty-12345": {
 					ID:           "qwerty-12345",
 					Candidates:   []string{"c-1"},
 					Participants: []string{"p-1"},
@@ -248,7 +248,7 @@ func Test_storage_AddEvent(t *testing.T) {
 		{
 			name: "Add existing id storage",
 			fields: fields{map[string]event.Event{
-				"qwerty-12345": event.Event{
+				"qwerty-12345": {
 					ID:           "qwerty-12345",
 					Candidates:   []string{"c-1"},
 					Participants: []string{"p-1"},
@@ -270,7 +270,7 @@ func Test_storage_AddEvent(t *testing.T) {
 			},
 			wantErr: true,
 			wantStorage: map[string]event.Event{
-				"qwerty-12345": event.Event{
+				"qwerty-12345": {
 					ID:           "qwerty-12345",
 					Candidates:   []string{"c-1"},
 					Participants: []string{"p-1"},
