@@ -27,8 +27,6 @@ func New() *storage {
 }
 
 func (s *storage) isUserExist(user string) bool {
-	s.usersMutex.RLock()
-	defer s.usersMutex.RUnlock()
 	if _, ok := s.users[user]; ok {
 		return true
 	}
