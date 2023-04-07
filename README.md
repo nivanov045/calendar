@@ -1,28 +1,30 @@
-# curly-waffle
+# Calendar System
 
-## Возможности
-* создать пользователя
-* создать встречу в календаре пользователя со списком приглашенных пользователей
-* получить детали встречи
-* принять или отклонить приглашение другого пользователя
-* найти все встречи пользователя для заданного промежутка времени
-* для заданного списка пользователей и минимальной продолжительности встречи, найти ближайшей интервал времени, в котором все эти пользователи свободны
+## Features
+* create a user
+* create a meeting in a user's calendar with a list of invited users
+* get meeting details
+* accept or decline another user's invitation
+* find all user meetings for a given time range
+* for a given list of users and a minimum meeting duration, find the nearest time interval in which all these users are free
 
-У встреч в календаре возможна следующая настройка повторов:
-* без повтора
-* каждый день
-* каждую неделю
-* каждый год
-* с понедельника по пятницу
+Meetings in the calendar can have the following recurrence settings:
 
-## Настройки сервера
-Для указания адреса сервера можно использовать флаг командной строки `a` или переменную окружения `ADDRESS`. По умолчанию `127.0.0.1:8080`.
-## Использование:
-Сервер принимает `POST` и `GET` запросы с `content-type application/json`.
+* no repeat
+* every day
+* every week
+* every year
+* Monday through Friday
 
-### Создание пользователя
-#### Запрос
-`POST` на `create-user` в формате
+## Server Settings
+To specify the server address, you can use the command line flag `a` or the environment variable `ADDRESS`. By default, `127.0.0.1:8080`.
+
+## Usage
+The server accepts `POST` and `GET` requests with `content-type application/json`.
+
+### Create a user
+#### Request
+`POST` to `/create-user` in the format
 
     {
         "info" : {
@@ -30,22 +32,22 @@
         }
     }
 
-#### Ответы
-* `200 OK` при успешном добавлении пользователя
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful user addition
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-#### Формат успешного ответа
-id созданного пользователя:
+#### Successful response format
+id of the created user
 
     {
         "id": "8c487d7a-a734-4c08-82f2-162c854ce827"
     }
 
 
-### Создание встречи в календаре
-#### Запрос
-`POST` на `create-event-with-users` в формате
+### Create a meeting in the calendar
+#### Request
+`POST` to `/create-event-with-users` in the format
 
     {
         "candidates" : ["8c487d7a-a734-4c08-82f2-162c854ce827"],
@@ -57,41 +59,41 @@ id созданного пользователя:
             "name": "Some meeting name"
         }
     }
-где `repeat_type` принимает одно из следующих значений в зависимости от типа повторения:
-* `0` - без повтора
-* `1` - каждый день
-* `2` - каждую неделю
-* `3` - каждый год
-* `4` - с понедельника по пятницу
+where `repeat_type` takes one of the following values depending on the type of repetition:
+* `0` - no repeat
+* `1` - every day
+* `2` - every week
+* `3` - every year
+* `4` - Monday through Friday
 
-#### Ответы
-* `200 OK` при успешном добавлении события в календарь
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful event addition to the calendar
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-#### Формат успешного ответа
-id созданного мероприятия:
+#### Successful response format
+id of the created event:
 
     {
         "id": "788dfa05-0f5d-4799-899a-c3b0e9eb3044"
     }
 
 
-### Получение деталей встречи
-#### Запрос
-`GET` на `event-details` с id мероприятия в формате
+### Get meeting details
+#### Request
+`GET` to `/event-details` with the event id in the format
 
     {
         "event": "788dfa05-0f5d-4799-899a-c3b0e9eb3044"
     }
 
-#### Ответы
-* `200 OK` при успешном существовании мероприятия и успешном получении деталей
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках, в том числе отсутствии мероприятия
+#### Responses
+* `200 OK` upon successful event existence and successful detail retrieval
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors, including event absence
 
-#### Формат успешного ответа
-Вся информация о событии:
+#### Successful response format
+All information about the event:
 
     {
         "candidates" : ["8c487d7a-a734-4c08-82f2-162c854ce827"],
@@ -105,38 +107,37 @@ id созданного мероприятия:
     }
 
 
-### Принятие приглашения на встречу
-#### Запрос
-`POST` на `accept-invitation` с id пользователя и мероприятия в формате
+### Accepting an invitation to a meeting
+#### Request
+`POST` to `/accept-invitation` with the user id and event id in the format
 
     {
         "user": "8c487d7a-a734-4c08-82f2-162c854ce827"
         "event": "788dfa05-0f5d-4799-899a-c3b0e9eb3044"
     }
 
-#### Ответы
-* `200 OK` при успешном принятии приглашения
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful invitation acceptance
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-### Отказ на приглашения на встречу
-#### Запрос
-`POST` на `reject-invitation` с id пользователя и мероприятия в формате
+### Declining an invitation to a meeting
+#### Request
+`POST` to `/reject-invitation` with the user id and event id in the format
 
     {
         "user": "8c487d7a-a734-4c08-82f2-162c854ce827"
         "event": "788dfa05-0f5d-4799-899a-c3b0e9eb3044"
     }
 
-#### Ответы
-* `200 OK` при успешном отказе от приглашения
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful invitation rejection
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-
-### Получение всех встреч пользователя в заданном промежутке
-#### Запрос
-`GET` на `events` с id пользователя и временной промежуток в формате
+### Getting all user meetings within a specified interval
+#### Request
+`GET` to `/events`  with the user id and time interval in the format
 
     {
         "user" : "8c487d7a-a734-4c08-82f2-162c854ce827",
@@ -144,13 +145,13 @@ id созданного мероприятия:
         "to"   : "2022-09-02T11:00:05Z",
     }
 
-#### Ответы
-* `200 OK` при успешном отказе от приглашения
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful event retrieval
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-#### Формат успешного ответа
-Вся информация о событиях, пересекающихся с заданным промежутком:
+#### Successful response format
+All information about events intersecting with the specified interval:
 
     {
         [
@@ -180,9 +181,9 @@ id созданного мероприятия:
     }
 
 
-### Поиск свободного промежутка для группы пользователей
-#### Запрос
-`GET` на `find-slot` с id пользователей, продолжительности встречи в наносекундах и время, после которого искать встречу уже не нужно
+### Finding a free slot for a group of users
+#### Request
+`GET` to `/find-slot` with user ids, meeting duration in nanoseconds, and time after which the search for a meeting is no longer needed
 
     {
         "users" : [
@@ -193,14 +194,18 @@ id созданного мероприятия:
         "valid_until" : "2022-10-02T11:00:00Z",
     }
 
-#### Ответы
-* `200 OK` при успешном отказе от приглашения
-* `400 Bad Request` при ошибке в запросе
-* `404 Not Found` при иных ошибках
+#### Responses
+* `200 OK` upon successful slot identification
+* `400 Bad Request` upon request error
+* `404 Not Found` upon other errors
 
-#### Формат успешного ответа
-Время начала найденного временного окна:
+#### Successful response format
+Successful response format:
 
     {
         "begin": "2022-09-05T11:00:00Z"
     }
+
+## Planned improvements
+* Add tests
+* Add database support
